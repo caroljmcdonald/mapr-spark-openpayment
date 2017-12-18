@@ -39,6 +39,6 @@ Step 2: Copy the jar and data to the sandbox
 
 To run the  standalone :
 
-spark-submit --class payment.ETLPayment --master local[2] mapr-spark-payment-1.0.jar
+spark-submit --class payment.ETLPayment --master local[2] mapr-spark-payment-1.0.jar /user/user01/data/payments.csv
 
 See the MapR-DB shell doc here https://maprdocs.mapr.com/home/ReferenceGuide/mapr_dbshell.html

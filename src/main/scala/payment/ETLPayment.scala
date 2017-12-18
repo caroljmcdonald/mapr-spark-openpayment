@@ -16,10 +16,10 @@ import com.mapr.db.spark.impl.OJAIDocument
 object ETLPayment {
 
   case class Payment(physician_id: String, date_payment: String, record_id: String, payer: String, amount: Double, physician_specialty: String, nature_of_payment: String) extends Serializable
-  
+
   case class PaymentwId(_id: String, physician_id: String, date_payment: String, payer: String, amount: Double, physician_specialty: String,
     nature_of_payment: String) extends Serializable
-  
+
   def createPaymentwId(p: Payment): PaymentwId = {
     val id = p.physician_id + '_' + p.date_payment + '_' + p.record_id
     PaymentwId(id, p.physician_id, p.date_payment, p.payer, p.amount, p.physician_specialty, p.nature_of_payment)
@@ -27,10 +27,17 @@ object ETLPayment {
 
   def main(args: Array[String]) {
 
-    val spark: SparkSession = SparkSession.builder().appName("uber").getOrCreate()
+    var pfile = "/user/user01/data/payments.csv"
+    if (args.length == 1) {
+      pfile = args(0)
+    } else {
+      System.out.println("Using hard coded parameters unless you specify the publish topic. For example  /user/user01/stream:flightp ")
+    }
+
+    val spark: SparkSession = SparkSession.builder().appName("payment").getOrCreate()
 
     val toDouble = udf[Double, String](_.toDouble)
-    val df = spark.read.option("header", "true").csv("/user/user01/data/payments.csv")
+    val df = spark.read.option("header", "true").csv(pfile)
     val df2 = df.withColumn("amount", toDouble(df("Total_Amount_of_Payment_USDollars")))
     df2.first
     df2.createOrReplaceTempView("payments")
