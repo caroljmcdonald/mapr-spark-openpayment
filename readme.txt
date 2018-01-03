@@ -42,3 +42,10 @@ To run the  standalone :
 spark-submit --class payment.ETLPayment --master local[2] mapr-spark-payment-1.0.jar /user/user01/data/payments.csv
 
 See the MapR-DB shell doc here https://maprdocs.mapr.com/home/ReferenceGuide/mapr_dbshell.html
+
+You can run the notebooks by importing the json file into Zeppelin.
+
+You can view the Zeppelin notebook with the viewer here 
+
+https://www.zepl.com/viewer/github/caroljmcdonald/mapr-spark-openpayment/blob/master/notebooks/MapRSparkPayment.json
+
